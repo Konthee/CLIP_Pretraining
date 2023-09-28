@@ -1,0 +1,9 @@
+defaults:
+  - model: default_model
+  - optimizer: adamw_optimizer
+  - scheduler: cosine_lr
+  - trainer: default_trainer
+  - dataset: default_dataset
+  - checkpointing: default_checkpointing
+  - logging: default_logging
+

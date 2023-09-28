@@ -1,0 +1,5 @@
+checkpoint_dir: "./checkpoints"
+save_every_epoch: 1
+keep_last_n: 3
+metric_to_monitor: "val_loss"
+mode: "minimize"

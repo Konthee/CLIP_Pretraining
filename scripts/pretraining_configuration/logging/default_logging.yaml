@@ -1,0 +1,8 @@
+log_level: "INFO"
+log_format: "%(asctime)s - %(levelname)s - %(message)s"
+log_dir: "./logs"
+log_file_name: "application.log"
+console_output: true
+file_output: true
+max_log_file_size: 10
+backup_count: 3

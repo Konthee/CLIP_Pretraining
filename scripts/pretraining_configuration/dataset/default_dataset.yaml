@@ -1,0 +1,4 @@
+training_dataset: Dataset
+validation_dataset: Dataset
+num_workers: 8
+shuffle_seed: 42
