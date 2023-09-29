@@ -13,6 +13,8 @@ def pretraining(cfg):
         model_config=cfg.model,
         trainer_config=cfg.trainer,
         dataset_config=cfg.dataset,
+        optimizer_config=cfg.optimizer,
+        scheduler_config =cfg.scheduler,
     )
 
 

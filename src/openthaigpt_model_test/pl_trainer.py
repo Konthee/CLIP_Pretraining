@@ -20,11 +20,15 @@ class CLIPModelPL(pl.LightningModule):
     def __init__(
         self,
         model_config=None,
+        optimizer_config='Adam',
+        scheduler_config='None',
     ):
         super().__init__()
         self.clip_model = CLIPModel.from_pretrained(
             model_config.clip_pretrained_path
         )
+        self.optimizer_config = optimizer_config
+        self.scheduler_config = scheduler_config
 
     def forward(
         self,
@@ -40,15 +44,49 @@ class CLIPModelPL(pl.LightningModule):
         )
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(
+        # optimizer
+        if self.optimizer_config.type == 'Adam' :
+            optimizer_cls = torch.optim.Adam 
+        else: 
+            optimizer_cls = torch.optim.AdamW
+
+        optimizer = optimizer_cls(
             self.parameters(),
-            lr=4e-4,
-            weight_decay=0.2,
-            betas=[0.9, 0.98],
-            eps=1e-6,
+            lr=self.optimizer_config.lr,
+            weight_decay=self.optimizer_config.weight_decay,
+            betas=self.optimizer_config.betas,
+            eps=self.optimizer_config.eps,
         )
+
+        # scheduler
+        if self.scheduler_config.type == 'None' :
+            return {"optimizer": optimizer,"monitor": VAL_LOSS_MONITOR,}
+        elif self.scheduler_config.type == 'cosine' :
+            cosine_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+                optimizer,
+                T_max=self.scheduler_config.T_max,
+                eta_min=self.scheduler_config.eta_min
+            )
+            schedulers={
+                'scheduler': cosine_scheduler,
+                'interval': 'epoch',
+                'monitor': VAL_LOSS_MONITOR
+                }
+        elif self.scheduler_config.type == 'steplr' :
+            step_scheduler = torch.optim.lr_scheduler.StepLR(
+                optimizer,
+                step_size=self.scheduler_config.step_size,
+                gamma=self.scheduler_config.gamma
+            )
+            schedulers={
+                'scheduler': step_scheduler,
+                'interval': 'epoch',
+                'monitor': VAL_LOSS_MONITOR
+                }
+        
         optimizers_config = {
             "optimizer": optimizer,
+            'lr_scheduler': schedulers,
             "monitor": VAL_LOSS_MONITOR,
         }
         return optimizers_config
@@ -87,6 +125,8 @@ def clip_pretraining(
     model_config,
     trainer_config,
     dataset_config,
+    optimizer_config,
+    scheduler_config,
 ):
     """
     Args:
@@ -114,6 +154,8 @@ def clip_pretraining(
     )
     model = CLIPModelPL(
         model_config=model_config,
+        optimizer_config=optimizer_config, 
+        scheduler_config=scheduler_config,
     )
     trainer = pl.Trainer(
         accelerator="gpu",

@@ -1,7 +1,7 @@
 defaults:
   - model: default_model
-  - optimizer: adamw_optimizer
-  - scheduler: cosine_lr
+  - optimizer: adamw_optimizer    # adam_optimizer or adamw_optimizer 
+  - scheduler: cosine_lr          # none , cosine_lr , steplr
   - trainer: default_trainer
   - dataset: default_dataset
   - checkpointing: default_checkpointing

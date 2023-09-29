@@ -31,5 +31,4 @@ if __name__ == "__main__":
     try : shutil.rmtree("Dataset")
     except : pass
     os.mkdir("Dataset")
-
     prepare_dataset()

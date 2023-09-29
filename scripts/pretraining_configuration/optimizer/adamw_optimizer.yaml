@@ -1,3 +1,5 @@
-type: "AdamW"
-lr: 0.001
-weight_decay: 0.01
+type: "AdamW"      
+lr: 0.0002         
+weight_decay: 0.2   
+betas: [0.8, 0.98]  
+eps: 0.000001       
