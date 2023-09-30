@@ -1,8 +1,11 @@
-log_level: "INFO"
-log_format: "%(asctime)s - %(levelname)s - %(message)s"
-log_dir: "./logs"
-log_file_name: "application.log"
-console_output: true
-file_output: true
-max_log_file_size: 10
-backup_count: 3
+# Wandb specific configuration
+wandb: 
+  use: True
+  project: "PretrainingClip"
+  log_model: True  # Set to true to log the model
+
+# TensorBoard specific configuration
+tensorboard:
+  use: True
+  save_dir: "./lightning_logs"  # Directory where TensorBoard logs will be saved
+  name: "PretrainingClip"  # Name of the TensorBoard log directory

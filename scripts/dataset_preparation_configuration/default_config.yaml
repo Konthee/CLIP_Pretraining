@@ -4,3 +4,9 @@ tokenize_batch_size: 833
 num_proc: 1
 save_dir: Dataset
 
+split:
+ use: True 
+ test_size: 0.15
+ seed: 5678
+
+

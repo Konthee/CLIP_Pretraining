@@ -24,7 +24,18 @@ def prepare_dataset(cfg):
         remove_columns=dataset['train'].column_names,
         num_proc=cfg.num_proc,
     )
-    tokenized_dataset.save_to_disk(cfg.save_dir)
+    if cfg.split.use :
+        # Splitting the training dataset into training and validation sets
+        split_dataset = tokenized_dataset['train'].train_test_split(
+                            test_size=cfg.split.test_size,
+                            seed=cfg.split.seed,
+                            )
+        # Updating the original dataset dict to include the new splits
+        dataset['train'] = split_dataset['train']
+        dataset['val'] = split_dataset['test']
+        dataset.save_to_disk(cfg.save_dir)
+    else :
+        tokenized_dataset.save_to_disk(cfg.save_dir)
 
 
 if __name__ == "__main__":

@@ -20,4 +20,12 @@ dependencies = [
     "transformers",
     "hydra-core",
     "pytorch-lightning",
+    "wandb",
+    "tensorboard",
+    "tensorboardX",
+    "torchsummary",
+    "transformers",
+    "accelerate",
+    "optimum",
+
 ]

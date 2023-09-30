@@ -1,5 +1,7 @@
-checkpoint_dir: "./checkpoints"
-save_every_epoch: 1
-keep_last_n: 3
-metric_to_monitor: "val_loss"
-mode: "minimize"
+dirpath: "./checkpoints"
+every_n_epochs: 1
+save_top_k: 1
+save_last : True
+verbose : True
+save_weights_only : False
+mode: "min"

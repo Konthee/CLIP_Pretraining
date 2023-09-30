@@ -1,3 +1,20 @@
 batch_size: 16
-max_steps: 100
-precision: 16-mixed
+max_steps: 1e6
+max_epochs: 100 
+precision: 32-true             # 16-mixed 32-true  
+accelerator: "auto"              # "cpu", "gpu", "tpu", "ipu", "hpu", "mps", "auto"
+accumulate_grad_batches: 1       # 16*2 =32
+better_transformer : False        # True : using bettertransformer
+freeze_image_encoder: True       # True : freeze image encoder layer weight
+
+resume_from_checkpoint:
+ use: False
+ checkpoint_path: "checkpoints/checkpoint_test.ckpt"
+
+early_stopping:
+ use: True
+ patience: 5
+ min_delta: 0.01
+ verbose: True
+ mode: "min"
+ 
