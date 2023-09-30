@@ -21,6 +21,5 @@ def pretraining(cfg):
     )
 
 if __name__ == "__main__":
-    print(os.get_exec_path)
     os.system("python scripts/dataset_preparation.py")
-    # pretraining()
+    pretraining()
