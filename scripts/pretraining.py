@@ -1,8 +1,6 @@
 import hydra
-import os
-from dataset_preparation import *
 from openthaigpt_model_test.pl_trainer import clip_pretraining
-
+import subprocess
 
 @hydra.main(
     version_base=None,
@@ -21,5 +19,5 @@ def pretraining(cfg):
     )
 
 if __name__ == "__main__":
-    os.system("python scripts/dataset_preparation.py")
+    subprocess.run(["python", "CLIP_Pretraining/scripts/dataset_preparation.py"], check=True)
     pretraining()

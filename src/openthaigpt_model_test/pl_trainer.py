@@ -39,6 +39,7 @@ class CLIPModelPL(pl.LightningModule):
         self.save_hyperparameters(trainer_config)
         self.optimizer_config = optimizer_config
         self.scheduler_config = scheduler_config
+        self.dropout =torch.nn.Dropout(trainer_config.dropout)
         # Freeze the image encoder layer weights
         if trainer_config.freeze_image_encoder: 
             for param in self.clip_model.vision_model.parameters():
@@ -46,7 +47,7 @@ class CLIPModelPL(pl.LightningModule):
         if trainer_config.better_transformer :
             self.clip_model = BetterTransformer.transform(self.clip_model,keep_original_model=False)
         #sumary model
-        summary(self.clip_model)
+        # summary(self.clip_model)
 
     def forward(
         self,
@@ -54,12 +55,13 @@ class CLIPModelPL(pl.LightningModule):
         attention_mask,
         pixel_values,
     ):
-        return self.clip_model(
+        outputs =self.clip_model(
             input_ids=input_ids,
             attention_mask=attention_mask,
             pixel_values=pixel_values,
             return_loss=True,
         )
+        return outputs
 
     def configure_optimizers(self):
         # optimizer
@@ -233,7 +235,6 @@ def clip_pretraining(
         accumulate_grad_batches=trainer_config.accumulate_grad_batches,
         callbacks=callbacks,
         logger = loggers if loggers else None ,
-        enable_model_summary=False,
     )
     trainer.fit(
         model,
