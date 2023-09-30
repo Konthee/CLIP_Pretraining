@@ -1,5 +1,6 @@
 import hydra
-import os 
+import os
+from dataset_preparation import *
 from openthaigpt_model_test.pl_trainer import clip_pretraining
 
 
@@ -20,5 +21,6 @@ def pretraining(cfg):
     )
 
 if __name__ == "__main__":
-    os.system("python Exam/openthaigpt-aieng-exam/scripts/dataset_preparation.py")
-    pretraining()
+    print(os.get_exec_path)
+    os.system("python scripts/dataset_preparation.py")
+    # pretraining()
